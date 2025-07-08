@@ -7,24 +7,32 @@ import {
 import type { ColumnResizeMode } from "@tanstack/react-table";
 import type { JobData } from "../data/mockData";
 import { mockData } from "../data/mockData";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const columnHelper = createColumnHelper<JobData>();
 
 const columns = [
-  columnHelper.accessor("id", { header: "#" }),
-  columnHelper.accessor("jobRequest", { header: "Job Request" }),
-  columnHelper.accessor("submitted", { header: "Submitted" }),
+  columnHelper.accessor("id", {
+    header: "#",
+  }),
+  columnHelper.accessor("jobRequest", {
+    header: "Job Request",
+  }),
+  columnHelper.accessor("submitted", {
+    header: "Submitted",
+  }),
   columnHelper.accessor("status", {
     header: "Status",
     cell: info => {
       const status = info.getValue();
       const color =
-        status === "In Progress"
-          ? "bg-blue-100 text-blue-800"
+        status === "In-process"
+          ? "bg-yellow-100 text-yellow-800"
           : status === "Blocked"
           ? "bg-red-100 text-red-800"
-          : "bg-green-100 text-green-800";
+          : status === "Complete"
+          ? "bg-green-100 text-green-800"
+          : "bg-gray-100 text-gray-800";
       return (
         <span className={`px-2 py-1 rounded-full text-xs font-semibold ${color}`}>
           {status}
@@ -32,24 +40,28 @@ const columns = [
       );
     },
   }),
-  columnHelper.accessor("submitter", { header: "Submitter" }),
+  columnHelper.accessor("submitter", {
+    header: "Submitter",
+  }),
   columnHelper.accessor("url", {
     header: "URL",
     cell: info => {
       const url = info.getValue();
       return (
         <a
-          href={url}
+          href={`https://${url}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 underline"
+          className="text-blue-600 underline whitespace-nowrap overflow-hidden text-ellipsis block max-w-[140px]"
         >
-          Link
+          {url}
         </a>
       );
     },
   }),
-  columnHelper.accessor("assigned", { header: "Assigned" }),
+  columnHelper.accessor("assigned", {
+    header: "Assigned",
+  }),
   columnHelper.accessor("priority", {
     header: "Priority",
     cell: info => {
@@ -59,32 +71,28 @@ const columns = [
           ? "text-red-600"
           : priority === "Medium"
           ? "text-yellow-600"
-          : "text-green-600";
+          : "text-blue-600";
       return <span className={`font-medium ${color}`}>{priority}</span>;
     },
   }),
-  columnHelper.accessor("dueDate", { header: "Due Date" }),
-  columnHelper.accessor("estValue", { header: "Est. Value" }),
+  columnHelper.accessor("dueDate", {
+    header: "Due Date",
+  }),
+  columnHelper.accessor("estValue", {
+    header: "Est. Value",
+  }),
 ];
 
 const Table = () => {
   const [selectedCell, setSelectedCell] = useState<[number, number]>([0, 0]);
-  const [columnVisibility, setColumnVisibility] = useState({});
-  const [columnResizeMode] = useState<ColumnResizeMode>("onChange");
 
   const table = useReactTable({
     data: mockData,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    state: {
-      columnVisibility,
-    },
-    onColumnVisibilityChange: setColumnVisibility,
-    enableColumnResizing: true,
-    columnResizeMode,
+    columnResizeMode: "onChange" as ColumnResizeMode,
   });
 
-  // Keyboard arrow key cell navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       setSelectedCell(([row, col]) => {
@@ -95,50 +103,26 @@ const Table = () => {
         return [row, col];
       });
     };
+
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [table]);
 
   return (
     <div className="overflow-auto border mx-4 my-4 bg-white rounded shadow">
-      {/* Column visibility toggles */}
-      <div className="px-4 py-2 flex flex-wrap gap-4">
-        {table.getAllLeafColumns().map(column => (
-          <label key={column.id} className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={column.getIsVisible()}
-              onChange={column.getToggleVisibilityHandler()}
-            />
-            <span>{column.id}</span>
-          </label>
-        ))}
-      </div>
-
-      {/* Table */}
-      <table className="min-w-full text-sm table-fixed select-none">
+      <table className="min-w-full text-sm table-fixed border-collapse">
         <thead className="bg-gray-100 text-left font-medium">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
                 <th
                   key={header.id}
-                  colSpan={header.colSpan}
-                  className="px-4 py-2 border relative group"
+                  className="px-4 py-2 border w-auto select-none"
                   style={{ width: header.getSize() }}
                 >
                   {header.isPlaceholder
                     ? null
                     : flexRender(header.column.columnDef.header, header.getContext())}
-                  {/* Resizer handle */}
-                  {header.column.getCanResize() && (
-                    <div
-                      onMouseDown={header.getResizeHandler()}
-                      onTouchStart={header.getResizeHandler()}
-                      onDoubleClick={() => header.column.resetSize()}
-                      className="absolute right-0 top-0 h-full w-1 bg-gray-400 cursor-col-resize opacity-0 group-hover:opacity-100"
-                    />
-                  )}
                 </th>
               ))}
             </tr>
@@ -148,13 +132,19 @@ const Table = () => {
           {table.getRowModel().rows.map((row, rowIndex) => (
             <tr className="hover:bg-gray-50" key={row.id}>
               {row.getVisibleCells().map((cell, colIndex) => {
-                const isSelected =
-                  rowIndex === selectedCell[0] && colIndex === selectedCell[1];
+                const isSelected = rowIndex === selectedCell[0] && colIndex === selectedCell[1];
+                const cellValue = cell.getValue();
+                const isEmpty = !cellValue;
+
                 return (
                   <td
                     key={cell.id}
-                    className={`px-4 py-2 border ${
-                      isSelected ? "ring-2 ring-blue-500 ring-offset-1" : ""
+                    className={`px-4 py-2 border truncate ${
+                      isSelected
+                        ? isEmpty
+                          ? "outline outline-green-500 outline-2"
+                          : "ring-2 ring-blue-500 ring-offset-1"
+                        : ""
                     }`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -165,6 +155,13 @@ const Table = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Pagination Footer */}
+      <div className="flex justify-center mt-4">
+        <div className="bg-black text-white px-4 py-1 rounded-full text-sm font-medium">
+          2 / 2
+        </div>
+      </div>
     </div>
   );
 };
