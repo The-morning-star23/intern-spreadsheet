@@ -1,59 +1,36 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
-import { SlidersHorizontal, Filter, LayoutGrid } from "lucide-react";
+import { Bell, ChevronRight } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 
 const TopBar = () => {
   return (
-    <div className="w-full px-4 py-2 border-b flex items-center justify-between bg-white">
-      {/* Left Section: Action Icons */}
-      <div className="flex items-center gap-2 text-gray-600">
-        <button
-          onClick={() => console.log("Sort clicked")}
-          className="p-2 hover:bg-gray-100 rounded"
-        >
-          <SlidersHorizontal size={18} />
-        </button>
-        <button
-          onClick={() => console.log("Filter clicked")}
-          className="p-2 hover:bg-gray-100 rounded"
-        >
-          <Filter size={18} />
-        </button>
-        <button
-          onClick={() => console.log("Cell View clicked")}
-          className="p-2 hover:bg-gray-100 rounded"
-        >
-          <LayoutGrid size={18} />
-        </button>
+    <div className="flex items-center justify-between px-4 py-2 border-b bg-white">
+      {/* Breadcrumb */}
+      <div className="flex items-center text-sm text-gray-600 font-medium space-x-2">
+        <span className="text-gray-500">Workspace</span>
+        <ChevronRight size={16} />
+        <span className="text-gray-500">Folder 2</span>
+        <ChevronRight size={16} />
+        <span className="text-black font-semibold">Spreadsheet 3</span>
       </div>
 
-      {/* Right Section: Avatar with dropdown */}
-      <div className="flex items-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Avatar className="cursor-pointer">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>SK</AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="mt-2 mr-2">
-            <DropdownMenuItem onClick={() => console.log("Profile clicked")}>
-              Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log("Logout clicked")}>
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      {/* Right Side */}
+      <div className="flex items-center space-x-4">
+        {/* Search */}
+        <Input
+          type="text"
+          placeholder="Search within sheet"
+          className="w-[200px] text-sm"
+        />
+
+        {/* Notification Icon */}
+        <Bell className="w-5 h-5 text-gray-600" />
+
+        {/* Avatar */}
+        <Avatar className="h-8 w-8">
+          <AvatarImage src="https://github.com/shadcn.png" alt="John Doe" />
+          <AvatarFallback>JD</AvatarFallback>
+        </Avatar>
       </div>
     </div>
   );
