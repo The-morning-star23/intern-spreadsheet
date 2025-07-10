@@ -2,7 +2,6 @@ import TopBar from "./components/TopBar";
 import Toolbar from "./components/Toolbar";
 import SheetHeader from "./components/SheetHeader"; // typo fixed
 import Table from "./components/Table";
-import Pagination from "./components/Pagination";
 
 function App() {
   return (
@@ -17,10 +16,7 @@ function App() {
       <SheetHeader />
 
       {/* Spreadsheet Table */}
-      <div className="relative z-10"> {/* ensures SheetHeader overlaps if needed */}
         <Table />
-        <Pagination />
-      </div>
     </div>
   );
 }

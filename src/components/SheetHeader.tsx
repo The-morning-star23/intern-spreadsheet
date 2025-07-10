@@ -1,38 +1,36 @@
-import { HelpCircle, Plus, Type, Upload } from "lucide-react";
+import { FiRefreshCw } from "react-icons/fi";
+import { BsThreeDots } from "react-icons/bs";
 
-const SheetHeader = () => {
+export default function SheetHeader() {
   return (
-    <div className="absolute top-[112px] left-0 right-0 z-30 flex justify-between items-start px-4">
-      {/* Left Q3 Tab */}
-      <div className="flex items-center h-9 bg-white border-b border-r rounded-tr-md shadow-sm pl-3 pr-2">
-        <div className="w-1.5 h-4 bg-blue-500 rounded mr-2" />
-        <span className="text-sm font-medium text-gray-700">
-          Q3 Financial Overview
-        </span>
-        <span className="ml-2 text-xs text-red-500">🔄</span>
+    <div className="flex items-center justify-between px-2 pt-2 pb-1 border-b border-gray-200 text-xs font-medium">
+      {/* Left: Q3 Financial Overview Tab */}
+      <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-1 rounded border border-gray-300 px-2 py-1 bg-white shadow-sm">
+          <span className="text-blue-500">🔁</span>
+          <span className="text-gray-800">Q3 Financial Overview</span>
+          <FiRefreshCw className="text-red-500 text-sm cursor-pointer" />
+        </div>
       </div>
 
-      {/* Right Floating Buttons */}
-      <div className="flex items-center space-x-2">
-        {[
-          { icon: Type, label: "ABC" },
-          { icon: HelpCircle, label: "?" },
-          { icon: Upload, label: "⇩" },
-        ].map(({ icon: Icon, label }, i) => (
-          <div
-            key={i}
-            className="flex flex-col items-center justify-center w-8 h-8 bg-white border rounded-md shadow-sm text-xs font-medium text-gray-700 hover:bg-gray-100"
-          >
-            <Icon className="w-4 h-4" />
-            <span className="-mt-0.5 text-[10px]">{label}</span>
-          </div>
-        ))}
-        <div className="w-8 h-8 bg-white border rounded-md shadow-sm flex items-center justify-center hover:bg-gray-100">
-          <Plus className="w-4 h-4 text-gray-600" />
+      {/* Right: ABC, Answer a question, Extract, + */}
+      <div className="flex items-center space-x-1">
+        <div className="flex items-center justify-between w-[90px] px-2 py-[6px] bg-green-100 rounded border border-green-300">
+          <span className="text-xs font-medium text-green-800">ABC</span>
+          <BsThreeDots className="text-gray-500 text-[12px]" />
+        </div>
+        <div className="flex items-center justify-between w-[150px] px-2 py-[6px] bg-purple-100 rounded border border-purple-300">
+          <span className="text-xs font-medium text-purple-800">Answer a question</span>
+          <BsThreeDots className="text-gray-500 text-[12px]" />
+        </div>
+        <div className="flex items-center justify-between w-[100px] px-2 py-[6px] bg-orange-100 rounded border border-orange-300">
+          <span className="text-xs font-medium text-orange-800">Extract</span>
+          <BsThreeDots className="text-gray-500 text-[12px]" />
+        </div>
+        <div className="flex items-center justify-center w-6 h-[28px] rounded border border-gray-300 bg-gray-100">
+          <span className="text-lg leading-none">+</span>
         </div>
       </div>
     </div>
   );
-};
-
-export default SheetHeader;
+}
