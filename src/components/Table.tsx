@@ -19,22 +19,26 @@ const baseColumns = [
   columnHelper.accessor("status", {
     header: "Status",
     cell: info => {
-      const status = String(info.getValue()).toLowerCase();
+      const status = String(info.getValue()).trim();
+      if (!status) return null; // No background or span if empty
+      
       const color =
-        status.includes("progress")
+        status.toLowerCase().includes("progress")
           ? "bg-yellow-100 text-yellow-800"
-          : status.includes("blocked")
+          : status.toLowerCase().includes("blocked")
           ? "bg-red-100 text-red-800"
-          : status.includes("complete")
+          : status.toLowerCase().includes("complete")
           ? "bg-green-100 text-green-800"
           : "bg-gray-100 text-gray-800";
+
       return (
         <span className={`px-2 py-1 rounded-full text-xs font-semibold ${color}`}>
-          {info.getValue()}
+         {status}
         </span>
       );
     },
   }),
+
   columnHelper.accessor("submitter", { header: "Submitter" }),
   columnHelper.accessor("url", {
     header: "URL",

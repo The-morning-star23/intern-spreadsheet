@@ -15,7 +15,11 @@ const TopBar = () => {
         <span className="text-gray-500">Folder 2</span>
         <ChevronRight size={16} className="mx-1" />
         <span className="text-gray-900 font-semibold">Spreadsheet 3</span>
-        <MoreHorizontal className="text-gray-400 ml-1" size={18} />
+        <MoreHorizontal
+          className="text-gray-400 ml-1 cursor-pointer"
+          size={18}
+          onClick={() => console.log("More options clicked")}
+        />
       </div>
 
       {/* Right: Search + Notification + Avatar with details */}
@@ -25,10 +29,16 @@ const TopBar = () => {
           type="text"
           placeholder="Search within sheet"
           className="w-[220px] h-8 text-sm"
+          onChange={(e) =>
+            console.log("Search input changed:", e.target.value)
+          }
         />
 
         {/* Bell icon with badge */}
-        <div className="relative">
+        <div
+          className="relative cursor-pointer"
+          onClick={() => console.log("Notifications clicked")}
+        >
           <Bell className="w-5 h-5 text-gray-600" />
           <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-4 h-4 text-[10px] font-semibold text-white bg-red-600 rounded-full">
             2
@@ -36,7 +46,10 @@ const TopBar = () => {
         </div>
 
         {/* Avatar + Name & Email */}
-        <div className="flex items-center space-x-2">
+        <div
+          className="flex items-center space-x-2 cursor-pointer"
+          onClick={() => console.log("User profile clicked")}
+        >
           <Avatar className="h-8 w-8">
             <AvatarImage src="https://github.com/shadcn.png" alt="John Doe" />
             <AvatarFallback>JD</AvatarFallback>
