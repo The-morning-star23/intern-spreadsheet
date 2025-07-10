@@ -93,12 +93,30 @@ const Table = () => {
     columnResizeMode: "onChange" as ColumnResizeMode,
   });
 
+  // Add empty rows to total 25
+  const totalRows = 25;
+  const filledRows = table.getRowModel().rows;
+  const emptyRows = Array.from({ length: totalRows - filledRows.length }, () => ({
+    id: "",
+    jobRequest: "",
+    submitted: "",
+    status: "",
+    submitter: "",
+    url: "",
+    assigned: "",
+    priority: "",
+    dueDate: "",
+    estValue: "",
+  }));
+
+  const fullRows = [...filledRows.map(r => r.original), ...emptyRows];
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       setSelectedCell(([row, col]) => {
-        if (e.key === "ArrowDown") return [Math.min(row + 1, table.getRowModel().rows.length - 1), col];
+        if (e.key === "ArrowDown") return [Math.min(row + 1, totalRows - 1), col];
         if (e.key === "ArrowUp") return [Math.max(row - 1, 0), col];
-        if (e.key === "ArrowRight") return [row, Math.min(col + 1, table.getAllColumns().length - 1)];
+        if (e.key === "ArrowRight") return [row, Math.min(col + 1, columns.length - 1)];
         if (e.key === "ArrowLeft") return [row, Math.max(col - 1, 0)];
         return [row, col];
       });
@@ -106,7 +124,7 @@ const Table = () => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [table]);
+  }, []);
 
   return (
     <div className="overflow-auto border mx-4 my-4 bg-white rounded shadow">
@@ -117,7 +135,7 @@ const Table = () => {
               {headerGroup.headers.map(header => (
                 <th
                   key={header.id}
-                  className="px-4 py-2 border w-auto select-none"
+                  className="px-3 py-2 border w-auto whitespace-nowrap select-none"
                   style={{ width: header.getSize() }}
                 >
                   {header.isPlaceholder
@@ -129,17 +147,17 @@ const Table = () => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row, rowIndex) => (
-            <tr className="hover:bg-gray-50" key={row.id}>
-              {row.getVisibleCells().map((cell, colIndex) => {
+          {fullRows.map((rowData, rowIndex) => (
+            <tr key={rowIndex} className="hover:bg-gray-50">
+              {columns.map((col, colIndex) => {
+                const cellValue = rowData[col.id as keyof JobData];
                 const isSelected = rowIndex === selectedCell[0] && colIndex === selectedCell[1];
-                const cellValue = cell.getValue();
                 const isEmpty = !cellValue;
 
                 return (
                   <td
-                    key={cell.id}
-                    className={`px-4 py-2 border truncate ${
+                    key={colIndex}
+                    className={`px-3 py-2 border truncate align-middle ${
                       isSelected
                         ? isEmpty
                           ? "outline outline-green-500 outline-2"
@@ -147,7 +165,7 @@ const Table = () => {
                         : ""
                     }`}
                   >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    {cellValue ? cellValue.toString() : ""}
                   </td>
                 );
               })}
@@ -155,13 +173,6 @@ const Table = () => {
           ))}
         </tbody>
       </table>
-
-      {/* Pagination Footer */}
-      <div className="flex justify-center mt-4">
-        <div className="bg-black text-white px-4 py-1 rounded-full text-sm font-medium">
-          2 / 2
-        </div>
-      </div>
     </div>
   );
 };
