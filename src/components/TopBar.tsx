@@ -8,38 +8,39 @@ import { Input } from "@/components/ui/input";
 
 const TopBar = () => {
   return (
-    <div className="flex items-center justify-between px-4 py-2 border-b bg-white">
-      {/* Left: Workspace Breadcrumb with green slider */}
-      <div className="flex items-center text-sm text-gray-600 font-medium space-x-2">
-        {/* Green vertical slider (Figma accurate) */}
-        <div className="w-1.5 h-4 rounded-full bg-green-600 mr-2"></div>
+    <div className="flex items-center justify-between px-4 py-2 border-b bg-white shadow-sm">
+      {/* Left: Green bar + Breadcrumb */}
+      <div className="flex items-center text-sm font-medium text-gray-600">
+        {/* Green vertical slider (not dot) */}
+        <div className="w-1 h-4 bg-green-500 rounded-sm mr-3"></div>
 
+        {/* Breadcrumb */}
         <span className="text-gray-500">Workspace</span>
-        <ChevronRight size={16} />
+        <ChevronRight size={16} className="mx-1" />
         <span className="text-gray-500">Folder 2</span>
-        <ChevronRight size={16} />
-        <span className="text-black font-semibold">Spreadsheet 3</span>
-        <MoreHorizontal size={16} className="text-gray-400 ml-1" />
+        <ChevronRight size={16} className="mx-1" />
+        <span className="text-gray-900 font-semibold">Spreadsheet 3</span>
+        <MoreHorizontal className="text-gray-400 ml-1" size={18} />
       </div>
 
-      {/* Right: Search, Notification, Avatar + Info */}
+      {/* Right: Search + Notification + Avatar with details */}
       <div className="flex items-center space-x-4">
-        {/* Search input */}
+        {/* Search box */}
         <Input
           type="text"
           placeholder="Search within sheet"
-          className="w-[200px] text-sm"
+          className="w-[220px] h-8 text-sm"
         />
 
-        {/* Notification bell with red count badge */}
+        {/* Bell icon with badge */}
         <div className="relative">
           <Bell className="w-5 h-5 text-gray-600" />
-          <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+          <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-4 h-4 text-[10px] font-semibold text-white bg-red-600 rounded-full">
             2
           </span>
         </div>
 
-        {/* Avatar + Name + Email */}
+        {/* Avatar + Name & Email */}
         <div className="flex items-center space-x-2">
           <Avatar className="h-8 w-8">
             <AvatarImage src="https://github.com/shadcn.png" alt="John Doe" />
