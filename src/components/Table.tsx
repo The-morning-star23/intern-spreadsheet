@@ -5,99 +5,77 @@ import {
   createColumnHelper,
 } from "@tanstack/react-table";
 import type { ColumnResizeMode } from "@tanstack/react-table";
+import { useEffect, useState } from "react";
 import type { JobData } from "../data/mockData";
 import { mockData } from "../data/mockData";
-import { useEffect, useState } from "react";
 
+// Create columns based on JobData
 const columnHelper = createColumnHelper<JobData>();
 
-const columns = [
-  columnHelper.accessor("id", {
-    header: "#",
-  }),
-  columnHelper.accessor("jobRequest", {
-    header: "Job Request",
-  }),
-  columnHelper.accessor("submitted", {
-    header: "Submitted",
-  }),
+const baseColumns = [
+  columnHelper.accessor("id", { header: "#" }),
+  columnHelper.accessor("jobRequest", { header: "Job Request" }),
+  columnHelper.accessor("submitted", { header: "Submitted" }),
   columnHelper.accessor("status", {
     header: "Status",
     cell: info => {
-      const status = info.getValue();
+      const status = String(info.getValue()).toLowerCase();
       const color =
-        status === "In-process"
+        status.includes("progress")
           ? "bg-yellow-100 text-yellow-800"
-          : status === "Blocked"
+          : status.includes("blocked")
           ? "bg-red-100 text-red-800"
-          : status === "Complete"
+          : status.includes("complete")
           ? "bg-green-100 text-green-800"
           : "bg-gray-100 text-gray-800";
       return (
         <span className={`px-2 py-1 rounded-full text-xs font-semibold ${color}`}>
-          {status}
+          {info.getValue()}
         </span>
       );
     },
   }),
-  columnHelper.accessor("submitter", {
-    header: "Submitter",
-  }),
+  columnHelper.accessor("submitter", { header: "Submitter" }),
   columnHelper.accessor("url", {
     header: "URL",
     cell: info => {
       const url = info.getValue();
       return (
         <a
-          href={`https://${url}`}
+          href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 underline whitespace-nowrap overflow-hidden text-ellipsis block max-w-[140px]"
+          className="text-blue-600 underline block max-w-[150px] truncate"
         >
           {url}
         </a>
       );
     },
   }),
-  columnHelper.accessor("assigned", {
-    header: "Assigned",
-  }),
+  columnHelper.accessor("assigned", { header: "Assigned" }),
   columnHelper.accessor("priority", {
     header: "Priority",
     cell: info => {
-      const priority = info.getValue();
+      const value = String(info.getValue()).toLowerCase();
       const color =
-        priority === "High"
+        value === "high"
           ? "text-red-600"
-          : priority === "Medium"
+          : value === "medium"
           ? "text-yellow-600"
           : "text-blue-600";
-      return <span className={`font-medium ${color}`}>{priority}</span>;
+      return <span className={`font-medium ${color}`}>{info.getValue()}</span>;
     },
   }),
-  columnHelper.accessor("dueDate", {
-    header: "Due Date",
-  }),
-  columnHelper.accessor("estValue", {
-    header: "Est. Value",
-  }),
+  columnHelper.accessor("dueDate", { header: "Due Date" }),
+  columnHelper.accessor("estValue", { header: "Est. Value" }),
 ];
 
-const Table = () => {
-  const [selectedCell, setSelectedCell] = useState<[number, number]>([0, 0]);
-
-  const table = useReactTable({
-    data: mockData,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    columnResizeMode: "onChange" as ColumnResizeMode,
-  });
-
-  // Add empty rows to total 25
-  const totalRows = 25;
-  const filledRows = table.getRowModel().rows;
-  const emptyRows = Array.from({ length: totalRows - filledRows.length }, () => ({
-    id: "",
+// Fill empty rows to make 50 total
+const totalRows = 50;
+const fullData = [
+  ...mockData,
+  ...Array.from({ length: totalRows - mockData.length }, (_, i) => ({
+    id: mockData.length + i + 1,
     jobRequest: "",
     submitted: "",
     status: "",
@@ -107,16 +85,25 @@ const Table = () => {
     priority: "",
     dueDate: "",
     estValue: "",
-  }));
+  })),
+];
 
-  const fullRows = [...filledRows.map(r => r.original), ...emptyRows];
+const Table = () => {
+  const [selectedCell, setSelectedCell] = useState<[number, number]>([0, 0]);
+
+  const table = useReactTable({
+    data: fullData,
+    columns: baseColumns,
+    getCoreRowModel: getCoreRowModel(),
+    columnResizeMode: "onChange" as ColumnResizeMode,
+  });
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       setSelectedCell(([row, col]) => {
-        if (e.key === "ArrowDown") return [Math.min(row + 1, totalRows - 1), col];
+        if (e.key === "ArrowDown") return [Math.min(row + 1, table.getRowModel().rows.length - 1), col];
         if (e.key === "ArrowUp") return [Math.max(row - 1, 0), col];
-        if (e.key === "ArrowRight") return [row, Math.min(col + 1, columns.length - 1)];
+        if (e.key === "ArrowRight") return [row, Math.min(col + 1, table.getAllColumns().length - 1)];
         if (e.key === "ArrowLeft") return [row, Math.max(col - 1, 0)];
         return [row, col];
       });
@@ -124,7 +111,7 @@ const Table = () => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [table]);
 
   return (
     <div className="overflow-auto border mx-4 my-4 bg-white rounded shadow">
@@ -135,29 +122,26 @@ const Table = () => {
               {headerGroup.headers.map(header => (
                 <th
                   key={header.id}
-                  className="px-3 py-2 border w-auto whitespace-nowrap select-none"
+                  className="px-4 py-2 border w-auto select-none"
                   style={{ width: header.getSize() }}
                 >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
+                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}
             </tr>
           ))}
         </thead>
         <tbody>
-          {fullRows.map((rowData, rowIndex) => (
-            <tr key={rowIndex} className="hover:bg-gray-50">
-              {columns.map((col, colIndex) => {
-                const cellValue = rowData[col.id as keyof JobData];
+          {table.getRowModel().rows.map((row, rowIndex) => (
+            <tr className="hover:bg-gray-50" key={row.id}>
+              {row.getVisibleCells().map((cell, colIndex) => {
                 const isSelected = rowIndex === selectedCell[0] && colIndex === selectedCell[1];
-                const isEmpty = !cellValue;
+                const isEmpty = !cell.getValue();
 
                 return (
                   <td
-                    key={colIndex}
-                    className={`px-3 py-2 border truncate align-middle ${
+                    key={cell.id}
+                    className={`px-4 py-2 border truncate whitespace-nowrap ${
                       isSelected
                         ? isEmpty
                           ? "outline outline-green-500 outline-2"
@@ -165,7 +149,7 @@ const Table = () => {
                         : ""
                     }`}
                   >
-                    {cellValue ? cellValue.toString() : ""}
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 );
               })}
