@@ -1,40 +1,169 @@
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { FiRotateCw } from "react-icons/fi";
-import { PiTextAaBold } from "react-icons/pi";
-import { FiPlus } from "react-icons/fi";
+import {
+  useReactTable,
+  getCoreRowModel,
+  flexRender,
+  createColumnHelper,
+} from "@tanstack/react-table";
+import type { ColumnResizeMode } from "@tanstack/react-table";
+import type { JobData } from "../data/mockData";
+import { mockData } from "../data/mockData";
+import { useEffect, useState } from "react";
 
-export default function SheetHeader() {
+const columnHelper = createColumnHelper<JobData>();
+
+const columns = [
+  columnHelper.accessor("id", {
+    header: "#",
+  }),
+  columnHelper.accessor("jobRequest", {
+    header: "Job Request",
+  }),
+  columnHelper.accessor("submitted", {
+    header: "Submitted",
+  }),
+  columnHelper.accessor("status", {
+    header: "Status",
+    cell: info => {
+      const status = info.getValue();
+      const color =
+        status === "In-process"
+          ? "bg-yellow-100 text-yellow-800"
+          : status === "Blocked"
+          ? "bg-red-100 text-red-800"
+          : status === "Complete"
+          ? "bg-green-100 text-green-800"
+          : "bg-gray-100 text-gray-800";
+      return (
+        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${color}`}>
+          {status}
+        </span>
+      );
+    },
+  }),
+  columnHelper.accessor("submitter", {
+    header: "Submitter",
+  }),
+  columnHelper.accessor("url", {
+    header: "URL",
+    cell: info => {
+      const url = info.getValue();
+      return (
+        <a
+          href={`https://${url}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline whitespace-nowrap overflow-hidden text-ellipsis block max-w-[140px]"
+        >
+          {url}
+        </a>
+      );
+    },
+  }),
+  columnHelper.accessor("assigned", {
+    header: "Assigned",
+  }),
+  columnHelper.accessor("priority", {
+    header: "Priority",
+    cell: info => {
+      const priority = info.getValue();
+      const color =
+        priority === "High"
+          ? "text-red-600"
+          : priority === "Medium"
+          ? "text-yellow-600"
+          : "text-blue-600";
+      return <span className={`font-medium ${color}`}>{priority}</span>;
+    },
+  }),
+  columnHelper.accessor("dueDate", {
+    header: "Due Date",
+  }),
+  columnHelper.accessor("estValue", {
+    header: "Est. Value",
+  }),
+];
+
+const Table = () => {
+  const [selectedCell, setSelectedCell] = useState<[number, number]>([0, 0]);
+
+  const table = useReactTable({
+    data: mockData,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    columnResizeMode: "onChange" as ColumnResizeMode,
+  });
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      setSelectedCell(([row, col]) => {
+        if (e.key === "ArrowDown") return [Math.min(row + 1, table.getRowModel().rows.length - 1), col];
+        if (e.key === "ArrowUp") return [Math.max(row - 1, 0), col];
+        if (e.key === "ArrowRight") return [row, Math.min(col + 1, table.getAllColumns().length - 1)];
+        if (e.key === "ArrowLeft") return [row, Math.max(col - 1, 0)];
+        return [row, col];
+      });
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [table]);
+
   return (
-    <div className="flex justify-between items-start w-full px-4 mt-4">
-      {/* LEFT SIDE: Q3 Financial Overview Slider Tab */}
-      <div className="relative z-10">
-        <div className="flex items-center bg-white border border-gray-300 rounded-r-full px-4 py-2 shadow-sm h-[40px]">
-          <div className="flex items-center space-x-2">
-            <div className="bg-blue-100 text-blue-600 rounded px-2 py-1 text-xs font-medium flex items-center">
-              <PiTextAaBold className="mr-1" /> Q3 Financial Overview
-            </div>
-            <FiRotateCw className="text-red-500 text-sm cursor-pointer" />
-          </div>
-        </div>
-        {/* Vertical slider bar */}
-        <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-6 bg-green-500 rounded-full" />
-      </div>
+    <div className="overflow-auto border mx-4 my-4 bg-white rounded shadow">
+      <table className="min-w-full text-sm table-fixed border-collapse">
+        <thead className="bg-gray-100 text-left font-medium">
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th
+                  key={header.id}
+                  className="px-4 py-2 border w-auto select-none"
+                  style={{ width: header.getSize() }}
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row, rowIndex) => (
+            <tr className="hover:bg-gray-50" key={row.id}>
+              {row.getVisibleCells().map((cell, colIndex) => {
+                const isSelected = rowIndex === selectedCell[0] && colIndex === selectedCell[1];
+                const cellValue = cell.getValue();
+                const isEmpty = !cellValue;
 
-      {/* RIGHT SIDE: ABC, Answer a question, Extract, + */}
-      <div className="flex items-center space-x-2">
-        <button className="flex items-center px-3 py-1.5 rounded-md bg-green-100 text-green-700 text-xs font-medium">
-          ABC <BsThreeDotsVertical className="ml-2 text-xs" />
-        </button>
-        <button className="flex items-center px-3 py-1.5 rounded-md bg-purple-100 text-purple-700 text-xs font-medium">
-          Answer a question <BsThreeDotsVertical className="ml-2 text-xs" />
-        </button>
-        <button className="flex items-center px-3 py-1.5 rounded-md bg-orange-100 text-orange-700 text-xs font-medium">
-          Extract <BsThreeDotsVertical className="ml-2 text-xs" />
-        </button>
-        <button className="flex items-center justify-center w-7 h-7 rounded-md border border-gray-300">
-          <FiPlus className="text-gray-600" />
-        </button>
+                return (
+                  <td
+                    key={cell.id}
+                    className={`px-4 py-2 border truncate ${
+                      isSelected
+                        ? isEmpty
+                          ? "outline outline-green-500 outline-2"
+                          : "ring-2 ring-blue-500 ring-offset-1"
+                        : ""
+                    }`}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Pagination Footer */}
+      <div className="flex justify-center mt-4">
+        <div className="bg-black text-white px-4 py-1 rounded-full text-sm font-medium">
+          2 / 2
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Table;
