@@ -9,12 +9,7 @@ import { Input } from "@/components/ui/input";
 const TopBar = () => {
   return (
     <div className="flex items-center justify-between px-4 py-2 border-b bg-white shadow-sm">
-      {/* Left: Green bar + Breadcrumb */}
       <div className="flex items-center text-sm font-medium text-gray-600">
-        {/* Green vertical slider (not dot) */}
-        <div className="w-1 h-4 bg-green-500 rounded-sm mr-3"></div>
-
-        {/* Breadcrumb */}
         <span className="text-gray-500">Workspace</span>
         <ChevronRight size={16} className="mx-1" />
         <span className="text-gray-500">Folder 2</span>
