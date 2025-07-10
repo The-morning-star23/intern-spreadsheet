@@ -1,6 +1,6 @@
 import TopBar from "./components/TopBar";
 import Toolbar from "./components/Toolbar";
-import SheetHeader from "@/components/SheetHeadr";
+import SheetHeader from "./components/SheetHeadr";
 import Table from "./components/Table";
 import Pagination from "./components/Pagination";
 
