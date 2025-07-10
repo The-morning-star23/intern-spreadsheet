@@ -1,41 +1,38 @@
-import { Plus, HelpCircle, Upload, Type } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { HelpCircle, Plus, Type, Upload } from "lucide-react";
 
 const SheetHeader = () => {
   return (
-    <div className="absolute top-[87px] left-0 w-full flex">
-      {/* Q3 Tab */}
-      <div className="w-[180px] border-r border-gray-200 bg-white">
-        <div className="flex items-center px-3 py-2 space-x-2 border-b border-gray-200">
-          <div className="w-1.5 h-6 bg-blue-500 rounded" />
-          <span className="text-sm font-medium text-gray-700">Q3 Financial Overview</span>
-          <div className="ml-auto text-xs text-red-500 cursor-pointer">🔄</div>
-        </div>
+    <div className="absolute top-[112px] left-0 right-0 z-30 flex justify-between items-start px-4">
+      {/* Left Q3 Tab */}
+      <div className="flex items-center h-9 bg-white border-b border-r rounded-tr-md shadow-sm pl-3 pr-2">
+        <div className="w-1.5 h-4 bg-blue-500 rounded mr-2" />
+        <span className="text-sm font-medium text-gray-700">
+          Q3 Financial Overview
+        </span>
+        <span className="ml-2 text-xs text-red-500">🔄</span>
       </div>
 
-      {/* Right-side Toolbar */}
-      <div className="ml-auto flex flex-col justify-start items-center space-y-2 pr-2 pt-2">
-        <div className={iconBoxStyle}>
-          <Type className="w-4 h-4" />
-          <span className="text-[10px] font-medium">ABC</span>
-        </div>
-        <div className={iconBoxStyle}>
-          <HelpCircle className="w-4 h-4" />
-          <span className="text-[10px] font-medium">?</span>
-        </div>
-        <div className={iconBoxStyle}>
-          <Upload className="w-4 h-4" />
-          <span className="text-[10px] font-medium">⇩</span>
-        </div>
-        <div className={cn(iconBoxStyle, 'bg-gray-100 hover:bg-gray-200')}>
-          <Plus className="w-4 h-4" />
+      {/* Right Floating Buttons */}
+      <div className="flex items-center space-x-2">
+        {[
+          { icon: Type, label: "ABC" },
+          { icon: HelpCircle, label: "?" },
+          { icon: Upload, label: "⇩" },
+        ].map(({ icon: Icon, label }, i) => (
+          <div
+            key={i}
+            className="flex flex-col items-center justify-center w-8 h-8 bg-white border rounded-md shadow-sm text-xs font-medium text-gray-700 hover:bg-gray-100"
+          >
+            <Icon className="w-4 h-4" />
+            <span className="-mt-0.5 text-[10px]">{label}</span>
+          </div>
+        ))}
+        <div className="w-8 h-8 bg-white border rounded-md shadow-sm flex items-center justify-center hover:bg-gray-100">
+          <Plus className="w-4 h-4 text-gray-600" />
         </div>
       </div>
     </div>
   );
 };
-
-const iconBoxStyle =
-  'w-9 h-9 bg-white border border-gray-300 rounded-md shadow-sm flex flex-col justify-center items-center hover:shadow-md cursor-pointer';
 
 export default SheetHeader;
