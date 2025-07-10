@@ -12,7 +12,7 @@ const TopBar = () => {
       {/* Left: Workspace Breadcrumb with green slider */}
       <div className="flex items-center text-sm text-gray-600 font-medium space-x-2">
         {/* Green vertical slider */}
-        <div className="w-1 h-3.5 bg-green-500 rounded-sm mr-2"></div>
+        <div className="w-1.5 h-4 rounded-full bg-green-600 mr-2"></div>
 
         <span className="text-gray-500">Workspace</span>
         <ChevronRight size={16} />
