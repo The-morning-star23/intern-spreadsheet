@@ -118,7 +118,7 @@ const Table = () => {
   }, [table]);
 
   return (
-    <div className="overflow-auto border mx-4 my-4 bg-white rounded shadow">
+    <div className="overflow-auto">
       <table className="min-w-full text-sm table-fixed border-collapse">
         <thead className="bg-gray-100 text-left font-medium">
           {table.getHeaderGroups().map(headerGroup => (
