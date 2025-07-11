@@ -161,6 +161,9 @@ const Table = () => {
           ))}
         </tbody>
       </table>
+      
+      {/* Bottom Tab Bar */}
+
       <div className="flex items-center border-t border-gray-200 px-4 py-2 bg-white text-sm">
         {["All Orders", "Pending", "Reviewed", "Arrived"].map((tab, idx) => (
           <button
