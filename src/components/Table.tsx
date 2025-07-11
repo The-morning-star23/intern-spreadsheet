@@ -8,8 +8,8 @@ import type { ColumnResizeMode } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import type { JobData } from "../data/mockData";
 import { mockData } from "../data/mockData";
+import { BsThreeDots } from "react-icons/bs";
 
-// Create columns based on JobData
 const columnHelper = createColumnHelper<JobData>();
 
 const baseColumns = [
@@ -21,7 +21,6 @@ const baseColumns = [
     cell: info => {
       const status = String(info.getValue()).trim();
       if (!status) return null;
-
       const color =
         status.toLowerCase().includes("progress")
           ? "bg-yellow-100 text-yellow-800"
@@ -119,34 +118,48 @@ const Table = () => {
     <div className="overflow-auto">
       <table className="min-w-full text-sm table-fixed border-collapse">
         <thead>
-          {/* First custom row - Q3 and action tabs */}
-          <tr className="text-xs font-medium bg-gray-100">
-            <th colSpan={6} className="p-0 border-r">
-              <div className="flex items-center h-full space-x-1 px-2 py-1">
-                <div className="flex items-center space-x-1 rounded-full border border-gray-300 bg-white px-3 py-[6px] shadow-sm hover:bg-gray-50 cursor-pointer">
-                  <span className="text-blue-500">🔁</span>
-                  <span className="text-gray-800">Q3 Financial Overview</span>
-                </div>
+          {/* Slider-style tab row */}
+          <tr className="text-xs font-medium bg-gray-200 text-gray-800">
+            <th colSpan={5} className="px-2 py-1 border-r">
+              <div className="flex items-center space-x-1 rounded-full border border-gray-300 bg-white px-3 py-[6px] shadow-sm hover:bg-gray-50 cursor-pointer w-fit">
+                <span className="text-blue-500">🔁</span>
+                <span>Q3 Financial Overview</span>
               </div>
             </th>
-            <th colSpan={2} className="p-0 border-r">
-              <div className="flex items-center justify-between h-full px-3 py-[6px] bg-green-100 rounded-full border border-green-200 cursor-pointer hover:bg-green-200">
-                <span className="text-xs text-green-800">ABC</span>
+            <th colSpan={2} className="px-2 py-1 border-r">
+              <div
+                className="flex items-center justify-between px-3 py-[6px] bg-green-100 rounded-full border border-green-300 cursor-pointer hover:bg-green-200"
+              >
+                <span className="text-xs font-medium text-green-800">ABC</span>
+                <BsThreeDots className="text-gray-500 text-[12px]" />
               </div>
             </th>
-            <th colSpan={2} className="p-0 border-r">
-              <div className="flex items-center justify-between h-full px-3 py-[6px] bg-purple-100 rounded-full border border-purple-200 cursor-pointer hover:bg-purple-200">
-                <span className="text-xs text-purple-800">Answer a question</span>
+            <th colSpan={2} className="px-2 py-1 border-r">
+              <div
+                className="flex items-center justify-between px-3 py-[6px] bg-purple-100 rounded-full border border-purple-300 cursor-pointer hover:bg-purple-200"
+              >
+                <span className="text-xs font-medium text-purple-800">Answer a question</span>
+                <BsThreeDots className="text-gray-500 text-[12px]" />
               </div>
             </th>
-            <th colSpan={2} className="p-0">
-              <div className="flex items-center justify-between h-full px-3 py-[6px] bg-orange-100 rounded-full border border-orange-200 cursor-pointer hover:bg-orange-200">
-                <span className="text-xs text-orange-800">Extract</span>
+            <th className="px-2 py-1 border-r">
+              <div
+                className="flex items-center justify-between px-3 py-[6px] bg-orange-100 rounded-full border border-orange-300 cursor-pointer hover:bg-orange-200"
+              >
+                <span className="text-xs font-medium text-orange-800">Extract</span>
+                <BsThreeDots className="text-gray-500 text-[12px]" />
+              </div>
+            </th>
+            <th className="px-2 py-1">
+              <div
+                className="flex items-center justify-center w-[24px] h-[24px] rounded-full border border-gray-300 bg-gray-100 hover:bg-gray-200 cursor-pointer"
+              >
+                +
               </div>
             </th>
           </tr>
 
-          {/* Actual header row from react-table */}
+          {/* Column headers */}
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
               {headerGroup.headers.map(header => (
@@ -197,7 +210,7 @@ const Table = () => {
             onClick={() => console.log(`Clicked tab: ${tab}`)}
             className={`px-3 py-1 rounded ${
               idx === 0 ? "font-semibold text-green-900 border-b-2 border-green-600" : "text-gray-500"
-            }  hover:bg-gray-100`}
+            } hover:bg-gray-100`}
           >
             {tab}
           </button>
