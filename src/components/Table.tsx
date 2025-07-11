@@ -20,8 +20,8 @@ const baseColumns = [
     header: "Status",
     cell: info => {
       const status = String(info.getValue()).trim();
-      if (!status) return null; // No background or span if empty
-      
+      if (!status) return null;
+
       const color =
         status.toLowerCase().includes("progress")
           ? "bg-yellow-100 text-yellow-800"
@@ -33,12 +33,11 @@ const baseColumns = [
 
       return (
         <span className={`px-2 py-1 rounded-full text-xs font-semibold ${color}`}>
-         {status}
+          {status}
         </span>
       );
     },
   }),
-
   columnHelper.accessor("submitter", { header: "Submitter" }),
   columnHelper.accessor("url", {
     header: "URL",
@@ -74,7 +73,6 @@ const baseColumns = [
   columnHelper.accessor("estValue", { header: "Est. Value" }),
 ];
 
-// Fill empty rows to make 50 total
 const totalRows = 50;
 const fullData = [
   ...mockData,
@@ -120,9 +118,37 @@ const Table = () => {
   return (
     <div className="overflow-auto">
       <table className="min-w-full text-sm table-fixed border-collapse">
-        <thead className="bg-gray-100 text-left font-medium">
+        <thead>
+          {/* First custom row - Q3 and action tabs */}
+          <tr className="text-xs font-medium bg-gray-100">
+            <th colSpan={6} className="p-0 border-r">
+              <div className="flex items-center h-full space-x-1 px-2 py-1">
+                <div className="flex items-center space-x-1 rounded-full border border-gray-300 bg-white px-3 py-[6px] shadow-sm hover:bg-gray-50 cursor-pointer">
+                  <span className="text-blue-500">🔁</span>
+                  <span className="text-gray-800">Q3 Financial Overview</span>
+                </div>
+              </div>
+            </th>
+            <th colSpan={2} className="p-0 border-r">
+              <div className="flex items-center justify-between h-full px-3 py-[6px] bg-green-100 rounded-full border border-green-200 cursor-pointer hover:bg-green-200">
+                <span className="text-xs text-green-800">ABC</span>
+              </div>
+            </th>
+            <th colSpan={2} className="p-0 border-r">
+              <div className="flex items-center justify-between h-full px-3 py-[6px] bg-purple-100 rounded-full border border-purple-200 cursor-pointer hover:bg-purple-200">
+                <span className="text-xs text-purple-800">Answer a question</span>
+              </div>
+            </th>
+            <th colSpan={2} className="p-0">
+              <div className="flex items-center justify-between h-full px-3 py-[6px] bg-orange-100 rounded-full border border-orange-200 cursor-pointer hover:bg-orange-200">
+                <span className="text-xs text-orange-800">Extract</span>
+              </div>
+            </th>
+          </tr>
+
+          {/* Actual header row from react-table */}
           {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
+            <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
               {headerGroup.headers.map(header => (
                 <th
                   key={header.id}
@@ -135,6 +161,7 @@ const Table = () => {
             </tr>
           ))}
         </thead>
+
         <tbody>
           {table.getRowModel().rows.map((row, rowIndex) => (
             <tr className="hover:bg-gray-50" key={row.id}>
@@ -161,9 +188,8 @@ const Table = () => {
           ))}
         </tbody>
       </table>
-      
-      {/* Bottom Tab Bar */}
 
+      {/* Bottom Tab Bar */}
       <div className="flex items-center border-t border-gray-200 px-4 py-2 bg-white text-sm">
         {["All Orders", "Pending", "Reviewed", "Arrived"].map((tab, idx) => (
           <button
