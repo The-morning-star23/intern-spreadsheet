@@ -161,6 +161,25 @@ const Table = () => {
           ))}
         </tbody>
       </table>
+      <div className="flex items-center border-t border-gray-200 px-4 py-2 bg-white text-sm">
+        {["All Orders", "Pending", "Reviewed", "Arrived"].map((tab, idx) => (
+          <button
+            key={tab}
+            onClick={() => console.log(`Clicked tab: ${tab}`)}
+            className={`px-3 py-1 rounded ${
+              idx === 0 ? "font-semibold text-green-900 border-b-2 border-green-600" : "text-gray-500"
+            }  hover:bg-gray-100`}
+          >
+            {tab}
+          </button>
+        ))}
+        <button
+          onClick={() => console.log("Add new tab")}
+          className="ml-2 px-3 py-1 rounded text-gray-600 hover:bg-gray-100"
+        >
+          +
+        </button>
+      </div>
     </div>
   );
 };
