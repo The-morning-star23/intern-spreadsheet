@@ -20,7 +20,6 @@ const baseColumns = [
     cell: info => {
       const status = String(info.getValue()).trim();
       if (!status) return null;
-
       const color =
         status.toLowerCase().includes("progress")
           ? "bg-yellow-100 text-yellow-800"
@@ -65,7 +64,6 @@ const baseColumns = [
           : value === "medium"
           ? "text-yellow-600"
           : "text-blue-600";
-
       return <span className={`font-medium ${color}`}>{info.getValue()}</span>;
     },
   }),
@@ -116,8 +114,8 @@ const Table = () => {
 
   return (
     <div className="overflow-auto">
-      <div className="min-w-fit">
-        <table className="table-fixed min-w-full text-sm border-collapse">
+      <div className="w-full">
+        <table className="min-w-fit text-sm border-collapse">
           <thead>
             <tr className="text-xs font-medium text-left">
               <th colSpan={6} className="p-0 bg-white">
@@ -207,6 +205,7 @@ const Table = () => {
         </table>
       </div>
 
+      {/* Bottom Tab Bar */}
       <div className="flex items-center border-t border-gray-200 px-4 py-2 bg-white text-sm">
         {["All Orders", "Pending", "Reviewed", "Arrived"].map((tab, idx) => (
           <button
