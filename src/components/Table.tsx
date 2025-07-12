@@ -1,4 +1,3 @@
-// ...same imports
 import {
   useReactTable,
   getCoreRowModel,
@@ -115,38 +114,45 @@ const Table = () => {
 
   return (
     <div className="overflow-auto">
-      <table className="min-w-full text-sm table-fixed border-collapse">
+      <table className="min-w-full text-sm table-fixed border-separate border-spacing-0">
         <thead>
-          {/* Toolbar Header Row */}
+          {/* Custom Toolbar Header */}
           <tr className="text-xs font-medium text-left">
-            <th colSpan={6} className="p-0 border-r bg-white">
+            {/* Q3 tab spans 6 columns */}
+            <th colSpan={6} className="p-0 bg-white">
               <button
-                className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-2 py-[6px] shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
+                className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-2 py-[6px] mx-1 shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
                 aria-label="Q3 Financial Overview"
               >
                 <span className="text-blue-500">🔁</span>
                 <span className="truncate text-sm font-medium text-gray-800">Q3 Financial Overview</span>
               </button>
             </th>
-            <th colSpan={1} className="p-0 border-r bg-white">
+
+            {/* ABC tab */}
+            <th colSpan={1} className="p-0 bg-white">
               <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-green-200 bg-green-100 text-green-800 px-2 py-[6px] text-xs font-semibold hover:bg-green-200 focus:outline focus:outline-blue-500"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-green-200 bg-green-100 text-green-800 px-2 py-[6px] mx-1 text-xs font-semibold hover:bg-green-200 focus:outline focus:outline-blue-500"
                 aria-label="ABC"
               >
                 ✅ <span>ABC</span>
               </button>
             </th>
-            <th colSpan={2} className="p-0 border-r bg-white">
+
+            {/* Answer a question tab */}
+            <th colSpan={2} className="p-0 bg-white">
               <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-purple-200 bg-purple-100 text-purple-800 px-2 py-[6px] text-xs font-semibold hover:bg-purple-200 focus:outline focus:outline-blue-500"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-purple-200 bg-purple-100 text-purple-800 px-2 py-[6px] mx-1 text-xs font-semibold hover:bg-purple-200 focus:outline focus:outline-blue-500"
                 aria-label="Answer a question"
               >
                 💬 <span>Answer a question</span>
               </button>
             </th>
-            <th colSpan={1} className="p-0 border-r bg-white">
+
+            {/* Extract tab */}
+            <th colSpan={1} className="p-0 bg-white">
               <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-orange-200 bg-orange-100 text-orange-800 px-2 py-[6px] text-xs font-semibold hover:bg-orange-200 focus:outline focus:outline-blue-500"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-orange-200 bg-orange-100 text-orange-800 px-2 py-[6px] mx-1 text-xs font-semibold hover:bg-orange-200 focus:outline focus:outline-blue-500"
                 aria-label="Extract"
               >
                 🧾 <span>Extract</span>
@@ -154,18 +160,21 @@ const Table = () => {
             </th>
           </tr>
 
-          {/* Column Header Row */}
+          {/* Table Headers */}
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
-              {headerGroup.headers.map(header => (
-                <th
-                  key={header.id}
-                  className="px-4 py-2 border w-auto select-none bg-white"
-                  style={{ width: header.getSize() }}
-                >
-                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                </th>
-              ))}
+              {headerGroup.headers.map((header, index) => {
+                const isLast = index === headerGroup.headers.length - 1;
+                return (
+                  <th
+                    key={header.id}
+                    className={`px-4 py-2 border bg-white w-auto select-none ${isLast ? 'border-r' : ''}`}
+                    style={{ width: header.getSize() }}
+                  >
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  </th>
+                );
+              })}
             </tr>
           ))}
         </thead>
@@ -173,20 +182,21 @@ const Table = () => {
         <tbody>
           {table.getRowModel().rows.map((row, rowIndex) => (
             <tr className="bg-white hover:bg-gray-50" key={row.id}>
-              {row.getVisibleCells().map((cell, colIndex) => {
-                const isSelected = rowIndex === selectedCell[0] && colIndex === selectedCell[1];
+              {row.getVisibleCells().map((cell, index) => {
+                const isSelected = rowIndex === selectedCell[0] && index === selectedCell[1];
                 const isEmpty = !cell.getValue();
+                const isLast = index === row.getVisibleCells().length - 1;
 
                 return (
                   <td
                     key={cell.id}
-                    className={`px-4 py-2 border truncate whitespace-nowrap ${
+                    className={`px-4 py-2 border truncate whitespace-nowrap bg-white ${
                       isSelected
                         ? isEmpty
                           ? "outline outline-green-500 outline-2"
                           : "ring-2 ring-blue-500 ring-offset-1"
                         : ""
-                    }`}
+                    } ${isLast ? "border-r" : ""}`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
