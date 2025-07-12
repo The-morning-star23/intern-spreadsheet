@@ -120,42 +120,57 @@ const Table = () => {
           <tr className="text-xs font-medium text-left">
             {/* Q3 spans from # to URL (6 columns) */}
             <th colSpan={6} className="p-0 border-r bg-white">
-              <div className="w-full h-full px-3 py-2 flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 mx-2 shadow-sm">
+              <button
+                className="w-full h-full px-3 py-2 flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 mx-2 shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
+                aria-label="Q3 Financial Overview"
+              >
                 <span className="text-blue-500">🔁</span>
                 <span className="text-sm font-medium text-gray-800">Q3 Financial Overview</span>
-              </div>
+              </button>
             </th>
 
             {/* ABC tab */}
             <th colSpan={1} className="p-0 border-r">
-              <div className="w-full h-full px-3 py-2 bg-green-100 text-green-800 flex items-center gap-2 justify-center rounded-md border border-green-200 mx-1">
+              <button
+                className="w-full h-full px-3 py-2 bg-green-100 text-green-800 flex items-center gap-2 justify-center rounded-md border border-green-200 mx-1 hover:bg-green-200 focus:outline focus:outline-green-500"
+                aria-label="ABC"
+              >
                 ✅ <span>ABC</span>
-              </div>
+              </button>
             </th>
 
             {/* Answer a question tab */}
             <th colSpan={2} className="p-0 border-r">
-              <div className="w-full h-full px-3 py-2 bg-purple-100 text-purple-800 flex items-center gap-2 justify-center rounded-md border border-purple-200 mx-1">
+              <button
+                className="w-full h-full px-3 py-2 bg-purple-100 text-purple-800 flex items-center gap-2 justify-center rounded-md border border-purple-200 mx-1 hover:bg-purple-200 focus:outline focus:outline-purple-500"
+                aria-label="Answer a question"
+              >
                 💬 <span>Answer a question</span>
-              </div>
+              </button>
             </th>
 
             {/* Extract tab */}
             <th colSpan={1} className="p-0 border-r">
-              <div className="w-full h-full px-3 py-2 bg-orange-100 text-orange-800 flex items-center gap-2 justify-center rounded-md border border-orange-200 mx-1">
+              <button
+                className="w-full h-full px-3 py-2 bg-orange-100 text-orange-800 flex items-center gap-2 justify-center rounded-md border border-orange-200 mx-1 hover:bg-orange-200 focus:outline focus:outline-orange-500"
+                aria-label="Extract"
+              >
                 🧾 <span>Extract</span>
-              </div>
+              </button>
             </th>
 
-            {/* Plus icon */}
-            <th className="p-0 w-[40px]">
-              <div className="w-full h-full flex items-center justify-center cursor-pointer hover:bg-gray-200">
+            {/* Plus icon cell with dotted borders */}
+            <th className="p-0 w-[40px] border-l border-r border-dotted border-gray-400 bg-white">
+              <button
+                className="w-full h-full flex items-center justify-center cursor-pointer hover:bg-gray-200 focus:outline focus:outline-blue-400"
+                aria-label="Add new"
+              >
                 <span className="text-xl font-bold">+</span>
-              </div>
+              </button>
             </th>
           </tr>
 
-          {/* Actual Column Headers */}
+          {/* Actual Table Headers */}
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
               {headerGroup.headers.map(header => (
@@ -167,6 +182,8 @@ const Table = () => {
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}
+              {/* Extra cell for + column in data rows */}
+              <th className="border border-dotted border-gray-400 bg-white"></th>
             </tr>
           ))}
         </thead>
@@ -193,6 +210,8 @@ const Table = () => {
                   </td>
                 );
               })}
+              {/* Empty + cell with dotted sides */}
+              <td className="border border-dotted border-gray-400 bg-white"></td>
             </tr>
           ))}
         </tbody>
@@ -206,14 +225,14 @@ const Table = () => {
             onClick={() => console.log(`Clicked tab: ${tab}`)}
             className={`px-3 py-1 rounded ${
               idx === 0 ? "font-semibold text-green-900 border-b-2 border-green-600" : "text-gray-500"
-            } hover:bg-gray-100`}
+            } hover:bg-gray-100 focus:outline focus:outline-green-600`}
           >
             {tab}
           </button>
         ))}
         <button
           onClick={() => console.log("Add new tab")}
-          className="ml-2 px-3 py-1 rounded text-gray-600 hover:bg-gray-100"
+          className="ml-2 px-3 py-1 rounded text-gray-600 hover:bg-gray-100 focus:outline focus:outline-blue-400"
         >
           +
         </button>
