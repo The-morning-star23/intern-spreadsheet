@@ -116,48 +116,46 @@ const Table = () => {
     <div className="overflow-auto">
       <table className="min-w-full text-sm table-fixed border-collapse">
         <thead>
-          {/* Custom Tab Header Row */}
-          <tr className="bg-white text-xs font-medium text-left">
-            {/* Q3 Financial Overview (colSpan 7) */}
-            <th colSpan={7} className="p-0 border-r">
-              <div className="w-full h-full px-3 py-2 bg-gray-100 border-r flex items-center gap-2">
+          {/* Custom Toolbar Header */}
+          <tr className="text-xs font-medium text-left">
+            {/* Q3 spans from # to URL (6 columns) */}
+            <th colSpan={6} className="p-0 border-r bg-white">
+              <div className="w-full h-full px-3 py-2 flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 mx-2 shadow-sm">
                 <span className="text-blue-500">🔁</span>
                 <span className="text-sm font-medium text-gray-800">Q3 Financial Overview</span>
-                {/* Optional Sync Icon */}
-                {/* <span className="text-orange-500 text-xs animate-spin">🔄</span> */}
               </div>
             </th>
 
-            {/* ABC */}
+            {/* ABC tab */}
             <th colSpan={1} className="p-0 border-r">
-              <div className="w-full h-full px-3 py-2 bg-green-100 text-green-800 border-r flex items-center gap-2">
+              <div className="w-full h-full px-3 py-2 bg-green-100 text-green-800 flex items-center gap-2 justify-center rounded-md border border-green-200 mx-1">
                 ✅ <span>ABC</span>
               </div>
             </th>
 
-            {/* Answer a question */}
+            {/* Answer a question tab */}
             <th colSpan={2} className="p-0 border-r">
-              <div className="w-full h-full px-3 py-2 bg-purple-100 text-purple-800 border-r flex items-center gap-2">
+              <div className="w-full h-full px-3 py-2 bg-purple-100 text-purple-800 flex items-center gap-2 justify-center rounded-md border border-purple-200 mx-1">
                 💬 <span>Answer a question</span>
               </div>
             </th>
 
-            {/* Extract */}
+            {/* Extract tab */}
             <th colSpan={1} className="p-0 border-r">
-              <div className="w-full h-full px-3 py-2 bg-orange-100 text-orange-800 border-r flex items-center gap-2">
+              <div className="w-full h-full px-3 py-2 bg-orange-100 text-orange-800 flex items-center gap-2 justify-center rounded-md border border-orange-200 mx-1">
                 🧾 <span>Extract</span>
               </div>
             </th>
 
-            {/* + Button */}
-            <th className="p-0 w-[48px]">
+            {/* Plus icon */}
+            <th className="p-0 w-[40px]">
               <div className="w-full h-full flex items-center justify-center cursor-pointer hover:bg-gray-200">
                 <span className="text-xl font-bold">+</span>
               </div>
             </th>
           </tr>
 
-          {/* Actual Table Header Row */}
+          {/* Actual Column Headers */}
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
               {headerGroup.headers.map(header => (
@@ -175,10 +173,11 @@ const Table = () => {
 
         <tbody>
           {table.getRowModel().rows.map((row, rowIndex) => (
-            <tr className="hover:bg-gray-50" key={row.id}>
+            <tr className="bg-white hover:bg-gray-50" key={row.id}>
               {row.getVisibleCells().map((cell, colIndex) => {
                 const isSelected = rowIndex === selectedCell[0] && colIndex === selectedCell[1];
                 const isEmpty = !cell.getValue();
+
                 return (
                   <td
                     key={cell.id}
@@ -199,7 +198,7 @@ const Table = () => {
         </tbody>
       </table>
 
-      {/* Bottom Tabs */}
+      {/* Bottom Tab Bar */}
       <div className="flex items-center border-t border-gray-200 px-4 py-2 bg-white text-sm">
         {["All Orders", "Pending", "Reviewed", "Arrived"].map((tab, idx) => (
           <button
