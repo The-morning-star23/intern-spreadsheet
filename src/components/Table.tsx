@@ -116,48 +116,44 @@ const Table = () => {
     <div className="overflow-auto">
       <table className="min-w-full text-sm table-fixed border-collapse">
         <thead>
-          <tr className="text-xs font-medium text-left bg-white">
-            <th colSpan={6} className="p-0 border-r">
+          <tr className="text-xs font-medium text-left">
+            <th colSpan={6} className="p-0 border-r bg-white">
               <button
-                className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-2 py-[6px] shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500 mx-1"
+                className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-2 py-[6px] shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
                 aria-label="Q3 Financial Overview"
               >
                 <span className="text-blue-500">🔁</span>
                 <span className="truncate text-sm font-medium text-gray-800">Q3 Financial Overview</span>
               </button>
             </th>
-
-            <th className="p-0 border-r bg-white">
+            <th colSpan={1} className="p-0 border-r bg-white">
               <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-green-200 bg-green-100 text-green-800 px-2 py-[6px] text-xs font-semibold hover:bg-green-200 focus:outline focus:outline-blue-500 mx-1"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-green-200 bg-green-100 text-green-800 px-2 py-[6px] text-xs font-semibold hover:bg-green-200 focus:outline focus:outline-blue-500"
                 aria-label="ABC"
               >
                 ✅ <span>ABC</span>
               </button>
             </th>
-
             <th colSpan={2} className="p-0 border-r bg-white">
               <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-purple-200 bg-purple-100 text-purple-800 px-2 py-[6px] text-xs font-semibold hover:bg-purple-200 focus:outline focus:outline-blue-500 mx-1"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-purple-200 bg-purple-100 text-purple-800 px-2 py-[6px] text-xs font-semibold hover:bg-purple-200 focus:outline focus:outline-blue-500"
                 aria-label="Answer a question"
               >
                 💬 <span>Answer a question</span>
               </button>
             </th>
-
-            <th className="p-0 border-r bg-white">
+            <th colSpan={1} className="p-0 border-r bg-white">
               <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-orange-200 bg-orange-100 text-orange-800 px-2 py-[6px] text-xs font-semibold hover:bg-orange-200 focus:outline focus:outline-blue-500 mx-1"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-orange-200 bg-orange-100 text-orange-800 px-2 py-[6px] text-xs font-semibold hover:bg-orange-200 focus:outline focus:outline-blue-500"
                 aria-label="Extract"
               >
                 🧾 <span>Extract</span>
               </button>
             </th>
-
-            <th className="p-0 min-w-[60px] border-l border-r border-dotted border-gray-300 bg-white">
+            <th className="p-0 border-l border-dotted border-gray-400 bg-white w-[60px]">
               <button
                 className="w-full h-full flex items-center justify-center text-xl font-bold hover:bg-gray-200 focus:outline focus:outline-blue-500"
-                aria-label="Add new column"
+                aria-label="Add new tab"
               >
                 +
               </button>
@@ -175,8 +171,7 @@ const Table = () => {
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}
-              {/* Empty column for + */}
-              <th className="border border-dotted border-gray-400 bg-white"></th>
+              <th className="border border-dotted border-gray-400 bg-white w-[60px]"></th>
             </tr>
           ))}
         </thead>
@@ -203,13 +198,12 @@ const Table = () => {
                   </td>
                 );
               })}
-              <td className="border border-dotted border-gray-400 bg-white"></td>
+              <td className="border border-dotted border-gray-400 bg-white w-[60px]"></td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Footer Tab Bar */}
       <div className="flex items-center border-t border-gray-200 px-4 py-2 bg-white text-sm">
         {["All Orders", "Pending", "Reviewed", "Arrived"].map((tab, idx) => (
           <button
