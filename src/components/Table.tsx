@@ -116,12 +116,12 @@ const Table = () => {
     <div className="overflow-auto">
       <table className="min-w-full text-sm table-fixed border-separate border-spacing-0">
         <thead>
-          {/* Custom Toolbar Header */}
+          {/* Toolbar Header Row */}
           <tr className="text-xs font-medium text-left">
-            {/* Q3 tab spans 6 columns */}
+            {/* Q3 Financial Overview (spanning 6 columns) */}
             <th colSpan={6} className="p-0 bg-white">
               <button
-                className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-2 py-[6px] mx-1 shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
+                className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-2 py-[6px] shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
                 aria-label="Q3 Financial Overview"
               >
                 <span className="text-blue-500">🔁</span>
@@ -129,30 +129,30 @@ const Table = () => {
               </button>
             </th>
 
-            {/* ABC tab */}
+            {/* ABC (1 column) */}
             <th colSpan={1} className="p-0 bg-white">
               <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-green-200 bg-green-100 text-green-800 px-2 py-[6px] mx-1 text-xs font-semibold hover:bg-green-200 focus:outline focus:outline-blue-500"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-green-200 bg-green-100 text-green-800 px-2 py-[6px] text-xs font-semibold hover:bg-green-200 focus:outline focus:outline-blue-500"
                 aria-label="ABC"
               >
                 ✅ <span>ABC</span>
               </button>
             </th>
 
-            {/* Answer a question tab */}
+            {/* Answer a question (2 columns) */}
             <th colSpan={2} className="p-0 bg-white">
               <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-purple-200 bg-purple-100 text-purple-800 px-2 py-[6px] mx-1 text-xs font-semibold hover:bg-purple-200 focus:outline focus:outline-blue-500"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-purple-200 bg-purple-100 text-purple-800 px-2 py-[6px] text-xs font-semibold hover:bg-purple-200 focus:outline focus:outline-blue-500"
                 aria-label="Answer a question"
               >
                 💬 <span>Answer a question</span>
               </button>
             </th>
 
-            {/* Extract tab */}
+            {/* Extract (1 column) */}
             <th colSpan={1} className="p-0 bg-white">
               <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-orange-200 bg-orange-100 text-orange-800 px-2 py-[6px] mx-1 text-xs font-semibold hover:bg-orange-200 focus:outline focus:outline-blue-500"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-orange-200 bg-orange-100 text-orange-800 px-1 py-[6px] text-xs font-semibold hover:bg-orange-200 focus:outline focus:outline-blue-500"
                 aria-label="Extract"
               >
                 🧾 <span>Extract</span>
@@ -160,21 +160,18 @@ const Table = () => {
             </th>
           </tr>
 
-          {/* Table Headers */}
+          {/* Table Column Headers */}
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
-              {headerGroup.headers.map((header, index) => {
-                const isLast = index === headerGroup.headers.length - 1;
-                return (
-                  <th
-                    key={header.id}
-                    className={`px-4 py-2 border bg-white w-auto select-none ${isLast ? 'border-r' : ''}`}
-                    style={{ width: header.getSize() }}
-                  >
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
-                );
-              })}
+              {headerGroup.headers.map(header => (
+                <th
+                  key={header.id}
+                  className="px-4 py-2 border select-none bg-white"
+                  style={{ width: header.getSize() }}
+                >
+                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                </th>
+              ))}
             </tr>
           ))}
         </thead>
