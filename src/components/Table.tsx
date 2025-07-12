@@ -20,6 +20,7 @@ const baseColumns = [
     cell: info => {
       const status = String(info.getValue()).trim();
       if (!status) return null;
+
       const color =
         status.toLowerCase().includes("progress")
           ? "bg-yellow-100 text-yellow-800"
@@ -64,6 +65,7 @@ const baseColumns = [
           : value === "medium"
           ? "text-yellow-600"
           : "text-blue-600";
+
       return <span className={`font-medium ${color}`}>{info.getValue()}</span>;
     },
   }),
@@ -114,97 +116,97 @@ const Table = () => {
 
   return (
     <div className="overflow-auto">
-      <table className="min-w-full text-sm table-fixed border-separate border-spacing-0">
-        <thead>
-          {/* Toolbar Header Row */}
-          <tr className="text-xs font-medium text-left">
-            {/* Q3 Financial Overview (spanning 6 columns) */}
-            <th colSpan={6} className="p-0 bg-white">
-              <button
-                className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-2 py-[6px] shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
-                aria-label="Q3 Financial Overview"
-              >
-                <span className="text-blue-500">🔁</span>
-                <span className="truncate text-sm font-medium text-gray-800">Q3 Financial Overview</span>
-              </button>
-            </th>
-
-            {/* ABC (1 column) */}
-            <th colSpan={1} className="p-0 bg-white">
-              <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-green-200 bg-green-100 text-green-800 px-2 py-[6px] text-xs font-semibold hover:bg-green-200 focus:outline focus:outline-blue-500"
-                aria-label="ABC"
-              >
-                ✅ <span>ABC</span>
-              </button>
-            </th>
-
-            {/* Answer a question (2 columns) */}
-            <th colSpan={2} className="p-0 bg-white">
-              <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-purple-200 bg-purple-100 text-purple-800 px-2 py-[6px] text-xs font-semibold hover:bg-purple-200 focus:outline focus:outline-blue-500"
-                aria-label="Answer a question"
-              >
-                💬 <span>Answer a question</span>
-              </button>
-            </th>
-
-            {/* Extract (1 column) */}
-            <th colSpan={1} className="p-0 bg-white">
-              <button
-                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-orange-200 bg-orange-100 text-orange-800 px-1 py-[6px] text-xs font-semibold hover:bg-orange-200 focus:outline focus:outline-blue-500"
-                aria-label="Extract"
-              >
-                🧾 <span>Extract</span>
-              </button>
-            </th>
-          </tr>
-
-          {/* Table Column Headers */}
-          {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
-              {headerGroup.headers.map(header => (
-                <th
-                  key={header.id}
-                  className="px-4 py-2 border select-none bg-white"
-                  style={{ width: header.getSize() }}
+      <div className="min-w-fit">
+        <table className="table-fixed min-w-full text-sm border-collapse">
+          <thead>
+            <tr className="text-xs font-medium text-left">
+              <th colSpan={6} className="p-0 bg-white">
+                <button
+                  className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-2 py-[6px] shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
+                  aria-label="Q3 Financial Overview"
                 >
-                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                </th>
-              ))}
+                  <span className="text-blue-500">🔁</span>
+                  <span className="truncate text-sm font-medium text-gray-800">Q3 Financial Overview</span>
+                </button>
+              </th>
+
+              <th colSpan={1} className="p-0 bg-white">
+                <button
+                  className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-green-200 bg-green-100 text-green-800 px-2 py-[6px] text-xs font-semibold hover:bg-green-200 focus:outline focus:outline-blue-500"
+                  aria-label="ABC"
+                >
+                  ✅ <span>ABC</span>
+                </button>
+              </th>
+
+              <th colSpan={2} className="p-0 bg-white">
+                <button
+                  className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-purple-200 bg-purple-100 text-purple-800 px-2 py-[6px] text-xs font-semibold hover:bg-purple-200 focus:outline focus:outline-blue-500"
+                  aria-label="Answer a question"
+                >
+                  💬 <span>Answer a question</span>
+                </button>
+              </th>
+
+              <th colSpan={1} className="p-0 bg-white">
+                <button
+                  className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-orange-200 bg-orange-100 text-orange-800 px-1 py-[6px] text-xs font-semibold hover:bg-orange-200 focus:outline focus:outline-blue-500"
+                  aria-label="Extract"
+                >
+                  🧾 <span>Extract</span>
+                </button>
+              </th>
             </tr>
-          ))}
-        </thead>
+          </thead>
 
-        <tbody>
-          {table.getRowModel().rows.map((row, rowIndex) => (
-            <tr className="bg-white hover:bg-gray-50" key={row.id}>
-              {row.getVisibleCells().map((cell, index) => {
-                const isSelected = rowIndex === selectedCell[0] && index === selectedCell[1];
-                const isEmpty = !cell.getValue();
-                const isLast = index === row.getVisibleCells().length - 1;
+          <thead>
+            {table.getHeaderGroups().map(headerGroup => (
+              <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
+                {headerGroup.headers.map((header, i, arr) => {
+                  const isLast = i === arr.length - 1;
+                  return (
+                    <th
+                      key={header.id}
+                      className={`px-4 py-2 border select-none bg-white ${isLast ? "border-r" : ""}`}
+                      style={{ width: header.getSize() }}
+                    >
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                    </th>
+                  );
+                })}
+              </tr>
+            ))}
+          </thead>
 
-                return (
-                  <td
-                    key={cell.id}
-                    className={`px-4 py-2 border truncate whitespace-nowrap bg-white ${
-                      isSelected
-                        ? isEmpty
-                          ? "outline outline-green-500 outline-2"
-                          : "ring-2 ring-blue-500 ring-offset-1"
-                        : ""
-                    } ${isLast ? "border-r" : ""}`}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          <tbody>
+            {table.getRowModel().rows.map((row, rowIndex) => (
+              <tr className="bg-white hover:bg-gray-50" key={row.id}>
+                {row.getVisibleCells().map((cell, index, arr) => {
+                  const isSelected = rowIndex === selectedCell[0] && index === selectedCell[1];
+                  const isEmpty = !cell.getValue();
+                  const isLast = index === arr.length - 1;
 
-      {/* Bottom Tab Bar */}
+                  return (
+                    <td
+                      key={cell.id}
+                      className={`px-4 py-2 border truncate whitespace-nowrap bg-white ${
+                        isSelected
+                          ? isEmpty
+                            ? "outline outline-green-500 outline-2"
+                            : "ring-2 ring-blue-500 ring-offset-1"
+                          : ""
+                      } ${isLast ? "border-r" : ""}`}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
       <div className="flex items-center border-t border-gray-200 px-4 py-2 bg-white text-sm">
         {["All Orders", "Pending", "Reviewed", "Arrived"].map((tab, idx) => (
           <button
