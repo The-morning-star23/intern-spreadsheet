@@ -121,54 +121,55 @@ const Table = () => {
             {/* Q3 spans from # to URL (6 columns) */}
             <th colSpan={6} className="p-0 border-r bg-white">
               <button
-                className="w-full h-full px-3 py-2 flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 mx-2 shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
+                className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-2 py-[6px] shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
                 aria-label="Q3 Financial Overview"
               >
                 <span className="text-blue-500">🔁</span>
-                <span className="text-sm font-medium text-gray-800">Q3 Financial Overview</span>
+                <span className="truncate text-sm font-medium text-gray-800">Q3 Financial Overview</span>
               </button>
             </th>
 
-            {/* ABC tab */}
-            <th colSpan={1} className="p-0 border-r">
+            {/* ABC (col 7) */}
+            <th colSpan={1} className="p-0 border-r bg-white">
               <button
-                className="w-full h-full px-3 py-2 bg-green-100 text-green-800 flex items-center gap-2 justify-center rounded-md border border-green-200 mx-1 hover:bg-green-200 focus:outline focus:outline-green-500"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-green-200 bg-green-100 text-green-800 px-2 py-[6px] text-xs font-semibold hover:bg-green-200 focus:outline focus:outline-blue-500"
                 aria-label="ABC"
               >
                 ✅ <span>ABC</span>
               </button>
             </th>
 
-            {/* Answer a question tab */}
-            <th colSpan={2} className="p-0 border-r">
+            {/* Answer a question (cols 8–9) */}
+            <th colSpan={2} className="p-0 border-r bg-white">
               <button
-                className="w-full h-full px-3 py-2 bg-purple-100 text-purple-800 flex items-center gap-2 justify-center rounded-md border border-purple-200 mx-1 hover:bg-purple-200 focus:outline focus:outline-purple-500"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-purple-200 bg-purple-100 text-purple-800 px-2 py-[6px] text-xs font-semibold hover:bg-purple-200 focus:outline focus:outline-blue-500"
                 aria-label="Answer a question"
               >
                 💬 <span>Answer a question</span>
               </button>
             </th>
 
-            {/* Extract tab */}
-            <th colSpan={1} className="p-0 border-r">
+            {/* Extract (col 10) */}
+            <th colSpan={1} className="p-0 border-r bg-white">
               <button
-                className="w-full h-full px-3 py-2 bg-orange-100 text-orange-800 flex items-center gap-2 justify-center rounded-md border border-orange-200 mx-1 hover:bg-orange-200 focus:outline focus:outline-orange-500"
+                className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-orange-200 bg-orange-100 text-orange-800 px-2 py-[6px] text-xs font-semibold hover:bg-orange-200 focus:outline focus:outline-blue-500"
                 aria-label="Extract"
               >
                 🧾 <span>Extract</span>
               </button>
             </th>
 
-            {/* Plus icon cell with dotted borders */}
-            <th className="p-0 w-[40px] border-l border-r border-dotted border-gray-400 bg-white">
+            {/* + Button with dotted cell */}
+            <th className="p-0 border-l border-r border-dotted border-gray-300 bg-white w-[40px]">
               <button
-                className="w-full h-full flex items-center justify-center cursor-pointer hover:bg-gray-200 focus:outline focus:outline-blue-400"
-                aria-label="Add new"
+                className="w-full h-full flex items-center justify-center text-xl font-bold hover:bg-gray-200 focus:outline focus:outline-blue-500"
+                aria-label="Add new tab"
               >
-                <span className="text-xl font-bold">+</span>
+                +
               </button>
             </th>
           </tr>
+
 
           {/* Actual Table Headers */}
           {table.getHeaderGroups().map(headerGroup => (
