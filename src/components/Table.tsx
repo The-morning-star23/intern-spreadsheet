@@ -103,7 +103,7 @@ const Table = () => {
       setSelectedCell(([row, col]) => {
         if (e.key === "ArrowDown") return [Math.min(row + 1, table.getRowModel().rows.length - 1), col];
         if (e.key === "ArrowUp") return [Math.max(row - 1, 0), col];
-        if (e.key === "ArrowRight") return [row, Math.min(col + 1, table.getAllColumns().length - 1)];
+        if (e.key === "ArrowRight") return [row, Math.min(col + 1, table.getAllColumns().length),];
         if (e.key === "ArrowLeft") return [row, Math.max(col - 1, 0)];
         return [row, col];
       });
@@ -113,15 +113,15 @@ const Table = () => {
   }, [table]);
 
   return (
-    <div className="overflow-auto">
-      <table className="min-w-full text-sm table-fixed border-collapse">
+    <div className="overflow-auto bg-white">
+      <table className="min-w-full text-sm table-fixed border-collapse bg-white">
         <thead>
           {/* Custom Toolbar Header */}
-          <tr className="text-xs font-medium text-left">
+          <tr className="text-xs font-medium text-left bg-white">
             {/* Q3 spans from # to URL (6 columns) */}
             <th colSpan={6} className="p-0 border-r bg-white">
               <button
-                className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-2 py-[6px] shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
+                className="w-full h-full flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-3 py-[6px] shadow-sm hover:bg-gray-200 focus:outline focus:outline-blue-500"
                 aria-label="Q3 Financial Overview"
               >
                 <span className="text-blue-500">🔁</span>
@@ -129,7 +129,7 @@ const Table = () => {
               </button>
             </th>
 
-            {/* ABC (col 7) */}
+            {/* ABC */}
             <th colSpan={1} className="p-0 border-r bg-white">
               <button
                 className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-green-200 bg-green-100 text-green-800 px-2 py-[6px] text-xs font-semibold hover:bg-green-200 focus:outline focus:outline-blue-500"
@@ -139,7 +139,7 @@ const Table = () => {
               </button>
             </th>
 
-            {/* Answer a question (cols 8–9) */}
+            {/* Answer a question */}
             <th colSpan={2} className="p-0 border-r bg-white">
               <button
                 className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-purple-200 bg-purple-100 text-purple-800 px-2 py-[6px] text-xs font-semibold hover:bg-purple-200 focus:outline focus:outline-blue-500"
@@ -149,7 +149,7 @@ const Table = () => {
               </button>
             </th>
 
-            {/* Extract (col 10) */}
+            {/* Extract */}
             <th colSpan={1} className="p-0 border-r bg-white">
               <button
                 className="w-full h-full flex items-center justify-center gap-1 rounded-md border border-orange-200 bg-orange-100 text-orange-800 px-2 py-[6px] text-xs font-semibold hover:bg-orange-200 focus:outline focus:outline-blue-500"
@@ -159,18 +159,18 @@ const Table = () => {
               </button>
             </th>
 
-            {/* + Button with dotted cell */}
-            <th className="p-0 w-[60px] border-l border-r border-dotted border-gray-300 bg-white">
+            {/* + Button full column */}
+            <th className="p-0 w-[80px] border border-dotted border-gray-300 bg-white">
               <button
                 className="w-full h-full flex items-center justify-center text-xl font-bold hover:bg-gray-200 focus:outline focus:outline-blue-500"
-                aria-label="Add new tab"
+                aria-label="Add new column"
               >
                 +
               </button>
             </th>
           </tr>
 
-          {/* Actual Table Headers */}
+          {/* Column Headers */}
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
               {headerGroup.headers.map(header => (
@@ -182,7 +182,7 @@ const Table = () => {
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}
-              {/* Extra cell for + column in data rows */}
+              {/* Extra header for + column */}
               <th className="border border-dotted border-gray-400 bg-white"></th>
             </tr>
           ))}
@@ -210,14 +210,14 @@ const Table = () => {
                   </td>
                 );
               })}
-              {/* Empty + cell with dotted sides */}
+              {/* Extra data cell for + column */}
               <td className="border border-dotted border-gray-400 bg-white"></td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Bottom Tab Bar */}
+      {/* Bottom Tabs */}
       <div className="flex items-center border-t border-gray-200 px-4 py-2 bg-white text-sm">
         {["All Orders", "Pending", "Reviewed", "Arrived"].map((tab, idx) => (
           <button
