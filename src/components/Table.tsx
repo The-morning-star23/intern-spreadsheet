@@ -160,7 +160,7 @@ const Table = () => {
             </th>
 
             {/* + Button with dotted cell */}
-            <th className="p-0 border-l border-r border-dotted border-gray-300 bg-white w-[40px]">
+            <th className="p-0 w-[60px] border-l border-r border-dotted border-gray-300 bg-white">
               <button
                 className="w-full h-full flex items-center justify-center text-xl font-bold hover:bg-gray-200 focus:outline focus:outline-blue-500"
                 aria-label="Add new tab"
@@ -169,7 +169,6 @@ const Table = () => {
               </button>
             </th>
           </tr>
-
 
           {/* Actual Table Headers */}
           {table.getHeaderGroups().map(headerGroup => (
