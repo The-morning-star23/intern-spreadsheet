@@ -118,47 +118,46 @@ const Table = () => {
         <thead>
           {/* Custom Tab Header Row */}
           <tr className="bg-white text-xs font-medium text-left">
-            <th colSpan={6} className="p-0 border-r">
-              <div className="flex items-center h-full px-3 py-1 space-x-2">
-                <div className="inline-flex items-center gap-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-[6px] text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-200 cursor-pointer">
-                  <span className="text-blue-500">🔁</span>
-                  <span>Q3 Financial Overview</span>
-                </div>
+            {/* Q3 Financial Overview (colSpan 7) */}
+            <th colSpan={7} className="p-0 border-r">
+              <div className="w-full h-full px-3 py-2 bg-gray-100 border-r flex items-center gap-2">
+                <span className="text-blue-500">🔁</span>
+                <span className="text-sm font-medium text-gray-800">Q3 Financial Overview</span>
+                {/* Optional Sync Icon */}
+                {/* <span className="text-orange-500 text-xs animate-spin">🔄</span> */}
               </div>
             </th>
 
+            {/* ABC */}
             <th colSpan={1} className="p-0 border-r">
-              <div className="flex items-center justify-center h-full px-2 py-[6px]">
-                <div className="w-full flex justify-center items-center rounded-md bg-green-100 text-green-800 border border-green-200 px-2 py-1 text-xs font-semibold">
-                  ✅ ABC
-                </div>
+              <div className="w-full h-full px-3 py-2 bg-green-100 text-green-800 border-r flex items-center gap-2">
+                ✅ <span>ABC</span>
               </div>
             </th>
 
+            {/* Answer a question */}
             <th colSpan={2} className="p-0 border-r">
-              <div className="flex items-center justify-center h-full px-2 py-[6px]">
-                <div className="w-full flex justify-center items-center rounded-md bg-purple-100 text-purple-800 border border-purple-200 px-2 py-1 text-xs font-semibold">
-                  💬 Answer a question
-                </div>
+              <div className="w-full h-full px-3 py-2 bg-purple-100 text-purple-800 border-r flex items-center gap-2">
+                💬 <span>Answer a question</span>
               </div>
             </th>
 
+            {/* Extract */}
             <th colSpan={1} className="p-0 border-r">
-              <div className="flex items-center justify-center h-full px-2 py-[6px]">
-                <div className="w-full flex justify-center items-center rounded-md bg-orange-100 text-orange-800 border border-orange-200 px-2 py-1 text-xs font-semibold">
-                  🧾 Extract
-                </div>
+              <div className="w-full h-full px-3 py-2 bg-orange-100 text-orange-800 border-r flex items-center gap-2">
+                🧾 <span>Extract</span>
               </div>
             </th>
 
-            <th className="p-0 w-[40px]">
-              <div className="flex items-center justify-center h-full px-2 py-[6px] cursor-pointer hover:bg-gray-200">
-                <span className="text-lg font-medium">+</span>
+            {/* + Button */}
+            <th className="p-0 w-[48px]">
+              <div className="w-full h-full flex items-center justify-center cursor-pointer hover:bg-gray-200">
+                <span className="text-xl font-bold">+</span>
               </div>
             </th>
           </tr>
 
-          {/* Actual Table Headers */}
+          {/* Actual Table Header Row */}
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
               {headerGroup.headers.map(header => (
