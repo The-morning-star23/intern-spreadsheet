@@ -1,3 +1,4 @@
+// ...same imports
 import {
   useReactTable,
   getCoreRowModel,
@@ -103,7 +104,7 @@ const Table = () => {
       setSelectedCell(([row, col]) => {
         if (e.key === "ArrowDown") return [Math.min(row + 1, table.getRowModel().rows.length - 1), col];
         if (e.key === "ArrowUp") return [Math.max(row - 1, 0), col];
-        if (e.key === "ArrowRight") return [row, Math.min(col + 1, table.getAllColumns().length)];
+        if (e.key === "ArrowRight") return [row, Math.min(col + 1, table.getAllColumns().length - 1)];
         if (e.key === "ArrowLeft") return [row, Math.max(col - 1, 0)];
         return [row, col];
       });
@@ -116,6 +117,7 @@ const Table = () => {
     <div className="overflow-auto">
       <table className="min-w-full text-sm table-fixed border-collapse">
         <thead>
+          {/* Toolbar Header Row */}
           <tr className="text-xs font-medium text-left">
             <th colSpan={6} className="p-0 border-r bg-white">
               <button
@@ -150,16 +152,9 @@ const Table = () => {
                 🧾 <span>Extract</span>
               </button>
             </th>
-            <th className="p-0 border-l border-dotted border-gray-400 bg-white w-[60px]">
-              <button
-                className="w-full h-full flex items-center justify-center text-xl font-bold hover:bg-gray-200 focus:outline focus:outline-blue-500"
-                aria-label="Add new tab"
-              >
-                +
-              </button>
-            </th>
           </tr>
 
+          {/* Column Header Row */}
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
               {headerGroup.headers.map(header => (
@@ -171,7 +166,6 @@ const Table = () => {
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}
-              <th className="border border-dotted border-gray-400 bg-white w-[60px]"></th>
             </tr>
           ))}
         </thead>
@@ -198,12 +192,12 @@ const Table = () => {
                   </td>
                 );
               })}
-              <td className="border border-dotted border-gray-400 bg-white w-[60px]"></td>
             </tr>
           ))}
         </tbody>
       </table>
 
+      {/* Bottom Tab Bar */}
       <div className="flex items-center border-t border-gray-200 px-4 py-2 bg-white text-sm">
         {["All Orders", "Pending", "Reviewed", "Arrived"].map((tab, idx) => (
           <button
@@ -216,12 +210,6 @@ const Table = () => {
             {tab}
           </button>
         ))}
-        <button
-          onClick={() => console.log("Add new tab")}
-          className="ml-2 px-3 py-1 rounded text-gray-600 hover:bg-gray-100 focus:outline focus:outline-blue-400"
-        >
-          +
-        </button>
       </div>
     </div>
   );
