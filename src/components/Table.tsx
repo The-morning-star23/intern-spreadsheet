@@ -108,7 +108,6 @@ const Table = () => {
         return [row, col];
       });
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [table]);
@@ -118,38 +117,48 @@ const Table = () => {
       <table className="min-w-full text-sm table-fixed border-collapse">
         <thead>
           {/* Custom Tab Header Row */}
-          <tr className="text-xs font-medium bg-gray-100 text-left">
+          <tr className="bg-white text-xs font-medium text-left">
             <th colSpan={6} className="p-0 border-r">
-              <div className="flex items-center h-full px-3 py-1 space-x-1">
-                <div className="flex items-center space-x-1 rounded-full border border-gray-300 bg-white px-3 py-[6px] shadow-sm hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center h-full px-3 py-1 space-x-2">
+                <div className="inline-flex items-center gap-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-[6px] text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-200 cursor-pointer">
                   <span className="text-blue-500">🔁</span>
-                  <span className="text-gray-800">Q3 Financial Overview</span>
+                  <span>Q3 Financial Overview</span>
                 </div>
               </div>
             </th>
+
             <th colSpan={1} className="p-0 border-r">
-              <div className="flex items-center justify-center h-full px-3 py-[6px] bg-green-100 rounded-full border border-green-200 cursor-pointer hover:bg-green-200">
-                <span className="text-xs font-medium text-green-800">ABC</span>
+              <div className="flex items-center justify-center h-full px-2 py-[6px]">
+                <div className="w-full flex justify-center items-center rounded-md bg-green-100 text-green-800 border border-green-200 px-2 py-1 text-xs font-semibold">
+                  ✅ ABC
+                </div>
               </div>
             </th>
+
             <th colSpan={2} className="p-0 border-r">
-              <div className="flex items-center justify-center h-full px-3 py-[6px] bg-purple-100 rounded-full border border-purple-200 cursor-pointer hover:bg-purple-200">
-                <span className="text-xs font-medium text-purple-800">Answer a question</span>
+              <div className="flex items-center justify-center h-full px-2 py-[6px]">
+                <div className="w-full flex justify-center items-center rounded-md bg-purple-100 text-purple-800 border border-purple-200 px-2 py-1 text-xs font-semibold">
+                  💬 Answer a question
+                </div>
               </div>
             </th>
+
             <th colSpan={1} className="p-0 border-r">
-              <div className="flex items-center justify-center h-full px-3 py-[6px] bg-orange-100 rounded-full border border-orange-200 cursor-pointer hover:bg-orange-200">
-                <span className="text-xs font-medium text-orange-800">Extract</span>
+              <div className="flex items-center justify-center h-full px-2 py-[6px]">
+                <div className="w-full flex justify-center items-center rounded-md bg-orange-100 text-orange-800 border border-orange-200 px-2 py-1 text-xs font-semibold">
+                  🧾 Extract
+                </div>
               </div>
             </th>
-            <th className="p-0">
+
+            <th className="p-0 w-[40px]">
               <div className="flex items-center justify-center h-full px-2 py-[6px] cursor-pointer hover:bg-gray-200">
-                <span className="text-xl font-light">+</span>
+                <span className="text-lg font-medium">+</span>
               </div>
             </th>
           </tr>
 
-          {/* Column Header Row */}
+          {/* Actual Table Headers */}
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id} className="bg-gray-100 text-left font-medium">
               {headerGroup.headers.map(header => (
@@ -171,7 +180,6 @@ const Table = () => {
               {row.getVisibleCells().map((cell, colIndex) => {
                 const isSelected = rowIndex === selectedCell[0] && colIndex === selectedCell[1];
                 const isEmpty = !cell.getValue();
-
                 return (
                   <td
                     key={cell.id}
@@ -192,7 +200,7 @@ const Table = () => {
         </tbody>
       </table>
 
-      {/* Bottom Tab Bar */}
+      {/* Bottom Tabs */}
       <div className="flex items-center border-t border-gray-200 px-4 py-2 bg-white text-sm">
         {["All Orders", "Pending", "Reviewed", "Arrived"].map((tab, idx) => (
           <button
