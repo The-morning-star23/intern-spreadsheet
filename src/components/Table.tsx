@@ -114,8 +114,8 @@ const Table = () => {
 
   return (
     <div className="overflow-auto">
-      <div className="w-full">
-        <table className="min-w-fit text-sm border-collapse">
+      <div className="w-full overflow-x-auto">
+        <table className="min-w-[calc(100%+1px)] text-sm border-collapse">
           <thead>
             <tr className="text-xs font-medium text-left">
               <th colSpan={6} className="p-0 bg-white">
